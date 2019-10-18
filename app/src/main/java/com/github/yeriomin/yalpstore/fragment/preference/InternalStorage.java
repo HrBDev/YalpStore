@@ -39,22 +39,18 @@ public class InternalStorage extends Abstract {
 
     @Override
     public void draw() {
-        preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                if ((Boolean) newValue) {
-                    activity.findPreference(PreferenceUtil.PREFERENCE_DOWNLOAD_DIRECTORY).setSummary(activity.getFilesDir().getAbsolutePath());
-                    ((CheckBoxPreference) activity.findPreference(PreferenceUtil.PREFERENCE_AUTO_INSTALL)).setChecked(true);
-                    ((CheckBoxPreference) activity.findPreference(PreferenceUtil.PREFERENCE_DELETE_APK_AFTER_INSTALL)).setChecked(true);
-                } else {
-                    activity.findPreference(PreferenceUtil.PREFERENCE_DOWNLOAD_DIRECTORY).setSummary(new File(
-                        Paths.getStorageRoot(activity),
-                        PreferenceUtil.getString(activity, PreferenceUtil.PREFERENCE_DOWNLOAD_DIRECTORY)
-                    ).getAbsolutePath());
-                }
-                return true;
+        preference.setOnPreferenceChangeListener((preference, newValue) -> {
+            if ((Boolean) newValue) {
+                activity.findPreference(PreferenceUtil.PREFERENCE_DOWNLOAD_DIRECTORY).setSummary(activity.getFilesDir().getAbsolutePath());
+                ((CheckBoxPreference) activity.findPreference(PreferenceUtil.PREFERENCE_AUTO_INSTALL)).setChecked(true);
+                ((CheckBoxPreference) activity.findPreference(PreferenceUtil.PREFERENCE_DELETE_APK_AFTER_INSTALL)).setChecked(true);
+            } else {
+                activity.findPreference(PreferenceUtil.PREFERENCE_DOWNLOAD_DIRECTORY).setSummary(new File(
+                    Paths.getStorageRoot(activity),
+                    PreferenceUtil.getString(activity, PreferenceUtil.PREFERENCE_DOWNLOAD_DIRECTORY)
+                ).getAbsolutePath());
             }
+            return true;
         });
     }
 

@@ -112,7 +112,7 @@ public class PreferenceUtil {
     static public Set<String> getStringSet(SharedPreferences preferences, String key) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             try {
-                return preferences.getStringSet(key, new HashSet<String>());
+                return preferences.getStringSet(key, new HashSet<>());
             } catch (ClassCastException e) {
                 return getStringSetCompat(preferences, key);
             }

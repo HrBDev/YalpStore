@@ -45,11 +45,6 @@ public class AppListProgressListener implements DownloadManager.ProgressListener
         if (null == appBadgeRef.get()) {
             return;
         }
-        ContextUtil.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                appBadgeRef.get().redrawMoreButton();
-            }
-        });
+        ContextUtil.runOnUiThread(() -> appBadgeRef.get().redrawMoreButton());
     }
 }

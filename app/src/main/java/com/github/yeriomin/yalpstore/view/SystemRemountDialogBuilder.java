@@ -34,19 +34,11 @@ public class SystemRemountDialogBuilder extends DialogWrapper {
 
     public SystemRemountDialogBuilder(Activity activity) {
         super(activity);
-        setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                primaryTask.execute();
-                dialog.dismiss();
-            }
+        setPositiveButton(android.R.string.yes, (dialog, which) -> {
+            primaryTask.execute();
+            dialog.dismiss();
         });
-        setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+        setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss());
     }
 
     public SystemRemountDialogBuilder setPrimaryTask(SystemRemountTask primaryTask) {

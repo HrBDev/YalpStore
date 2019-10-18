@@ -118,9 +118,7 @@ public class State {
     }
 
     public void addProgressListener(DownloadManager.ProgressListener listener) {
-        Iterator<DownloadManager.ProgressListener> iterator = progressListeners.iterator();
-        while (iterator.hasNext()) {
-            DownloadManager.ProgressListener current = iterator.next();
+        for (DownloadManager.ProgressListener current : progressListeners) {
             if (current.getClass().isInstance(listener)) {
                 progressListeners.remove(current);
                 break;

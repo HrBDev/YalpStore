@@ -49,15 +49,12 @@ public class DownloadDirectory extends Abstract {
     @Override
     public void draw() {
         preference.setSummary(Paths.getYalpPath(activity).getAbsolutePath());
-        preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                YalpStorePermissionManager permissionManager = new YalpStorePermissionManager(activity);
-                if (!permissionManager.checkPermission()) {
-                    permissionManager.requestPermission();
-                }
-                return true;
+        preference.setOnPreferenceClickListener(preference -> {
+            YalpStorePermissionManager permissionManager = new YalpStorePermissionManager(activity);
+            if (!permissionManager.checkPermission()) {
+                permissionManager.requestPermission();
             }
+            return true;
         });
         preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -107,19 +104,11 @@ public class DownloadDirectory extends Abstract {
                             + "\n\n"
                             + activity.getString(R.string.pref_message_fallback, Paths.FALLBACK_DIRECTORY)
                     )
-                    .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            preference.setText(Paths.FALLBACK_DIRECTORY);
-                            preference.getOnPreferenceChangeListener().onPreferenceChange(preference, Paths.FALLBACK_DIRECTORY);
-                            dialog.dismiss();
-                        }
+                    .setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
+                    .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                        preference.setText(Paths.FALLBACK_DIRECTORY);
+                        preference.getOnPreferenceChangeListener().onPreferenceChange(preference, Paths.FALLBACK_DIRECTORY);
+                        dialog.dismiss();
                     })
                     .create()
                 ;

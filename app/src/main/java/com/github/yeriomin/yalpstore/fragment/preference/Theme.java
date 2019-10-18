@@ -40,12 +40,9 @@ public class Theme extends Abstract {
 
     @Override
     public void draw() {
-        Preference.OnPreferenceChangeListener listener = new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, final Object newValue) {
-                preference.setSummary(activity.getString(getThemeSummaryStringId((String) newValue)));
-                return true;
-            }
+        Preference.OnPreferenceChangeListener listener = (preference, newValue) -> {
+            preference.setSummary(activity.getString(getThemeSummaryStringId((String) newValue)));
+            return true;
         };
         listener.onPreferenceChange(themePreference, themePreference.getValue());
         themePreference.setOnPreferenceChangeListener(listener);

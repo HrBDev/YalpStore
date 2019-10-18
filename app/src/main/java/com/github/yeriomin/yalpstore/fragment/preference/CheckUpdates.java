@@ -57,16 +57,13 @@ public class CheckUpdates extends Abstract {
     @Override
     public void draw() {
         checkForUpdates.setSummary(activity.getString(getUpdateSummaryStringId(checkForUpdates.getValue())));
-        checkForUpdates.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                int interval = Util.parseInt((String) newValue, 0);
-                UpdateChecker.enable(activity, interval);
-                preference.setSummary(activity.getString(getUpdateSummaryStringId((String) newValue)));
-                alsoDownload.setEnabled(interval > 0);
-                alsoInstall.setEnabled(interval > 0);
-                return true;
-            }
+        checkForUpdates.setOnPreferenceChangeListener((preference, newValue) -> {
+            int interval = Util.parseInt((String) newValue, 0);
+            UpdateChecker.enable(activity, interval);
+            preference.setSummary(activity.getString(getUpdateSummaryStringId((String) newValue)));
+            alsoDownload.setEnabled(interval > 0);
+            alsoInstall.setEnabled(interval > 0);
+            return true;
         });
         checkForUpdates.getOnPreferenceChangeListener().onPreferenceChange(checkForUpdates, checkForUpdates.getValue());
         alsoInstall.setOnPreferenceChangeListener(new AlsoInstallOnPreferenceChangeListener());

@@ -62,7 +62,7 @@ public abstract class AppBadge extends ListItem {
         setText(R.id.text2, TextUtils.join(", ", line2));
         setText(R.id.text3, TextUtils.join(", ", line3));
 
-        drawIcon((ImageView) view.findViewById(R.id.icon), app.getPackageName(), app.getIconInfo());
+        drawIcon(view.findViewById(R.id.icon), app.getPackageName(), app.getIconInfo());
         redrawMoreButton();
     }
 
@@ -88,14 +88,11 @@ public abstract class AppBadge extends ListItem {
         } else if (buttonDownload.shouldBeVisible()) {
             enableMoreButton(
                 R.drawable.ic_download,
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    v -> {
                         DetailsActivity.app = app;
                         buttonDownload.checkAndDownload();
                         enableCancelButton();
                     }
-                }
             );
         }
     }
@@ -144,13 +141,10 @@ public abstract class AppBadge extends ListItem {
         }
         enableMoreButton(
             R.drawable.ic_cancel,
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                v -> {
                     new DownloadManager(v.getContext()).cancel(app.getPackageName());
                     redrawMoreButton();
                 }
-            }
         );
     }
 }

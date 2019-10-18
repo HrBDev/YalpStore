@@ -38,7 +38,7 @@ public class AboutActivity extends YalpStoreActivity {
         setContentView(R.layout.about_activity_layout);
         ((TextView) findViewById(R.id.version)).setText(BuildConfig.VERSION_NAME);
         ((TextView) findViewById(R.id.user_email)).setText(YalpStoreApplication.user.getEmail());
-        TextView gsfIdView = (TextView) findViewById(R.id.gsf_id);
+        TextView gsfIdView = findViewById(R.id.gsf_id);
         gsfIdView.setText(YalpStoreApplication.user.getGsfId());
         gsfIdView.setOnClickListener(new CopyToClipboardListener());
         findViewById(R.id.developer_email).setOnClickListener(new CopyToClipboardListener() {

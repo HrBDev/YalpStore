@@ -55,15 +55,12 @@ public class HistoryActivity extends ListActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Object eventItem = parent.getAdapter().getItem(position);
-                if (null != eventItem && eventItem instanceof HistoryItem) {
-                    App app = ((HistoryItem) eventItem).getApp();
-                    if (app != null) {
-                        HistoryActivity.this.startActivity(DetailsActivity.getDetailsIntent(HistoryActivity.this, app.getPackageName()));
-                    }
+        getListView().setOnItemClickListener((parent, view, position, id) -> {
+            Object eventItem = parent.getAdapter().getItem(position);
+            if (null != eventItem && eventItem instanceof HistoryItem) {
+                App app = ((HistoryItem) eventItem).getApp();
+                if (app != null) {
+                    HistoryActivity.this.startActivity(DetailsActivity.getDetailsIntent(HistoryActivity.this, app.getPackageName()));
                 }
             }
         });

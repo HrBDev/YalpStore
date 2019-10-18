@@ -50,13 +50,10 @@ public class Screenshot extends Abstract {
         int screenWidth = activity.getWindowManager().getDefaultDisplay().getWidth();
         gallery.setAdapter(new ImageAdapter(activity, app.getScreenshotUrls(), screenWidth));
         gallery.setSpacing(10);
-        gallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(activity, FullscreenImageActivity.class);
-                intent.putExtra(FullscreenImageActivity.INTENT_SCREENSHOT_NUMBER, position);
-                activity.startActivity(intent);
-            }
+        gallery.setOnItemClickListener((parent, view, position, id) -> {
+            Intent intent = new Intent(activity, FullscreenImageActivity.class);
+            intent.putExtra(FullscreenImageActivity.INTENT_SCREENSHOT_NUMBER, position);
+            activity.startActivity(intent);
         });
     }
 }

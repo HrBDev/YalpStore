@@ -62,15 +62,12 @@ public class DetailsProgressListener implements ProgressListener {
         if (null == activityRef.get()) {
             return;
         }
-        ContextUtil.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                activityRef.get().findViewById(R.id.download_progress_container).setVisibility(View.GONE);
-                ProgressBar progressBar = activityRef.get().findViewById(R.id.download_progress);
-                progressBar.setIndeterminate(true);
-                progressBar.setProgress(0);
-                activityRef.get().redrawButtons();
-            }
+        ContextUtil.runOnUiThread(() -> {
+            activityRef.get().findViewById(R.id.download_progress_container).setVisibility(View.GONE);
+            ProgressBar progressBar = activityRef.get().findViewById(R.id.download_progress);
+            progressBar.setIndeterminate(true);
+            progressBar.setProgress(0);
+            activityRef.get().redrawButtons();
         });
     }
 }

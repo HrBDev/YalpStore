@@ -87,8 +87,8 @@ public class EglExtensionRetriever {
             if (!TextUtils.isEmpty(s)) {
                 String as[] = s.split(" ");
                 int i = as.length;
-                for (int j = 0; j < i; j++) {
-                    set.add(as[j]);
+                for (String a : as) {
+                    set.add(a);
                 }
             }
             egl10.eglMakeCurrent(egldisplay, EGL10.EGL_NO_SURFACE, EGL10.EGL_NO_SURFACE, EGL10.EGL_NO_CONTEXT);

@@ -62,23 +62,20 @@ public class Review extends Abstract {
         }
 
         activity.findViewById(R.id.reviews_panel).setVisibility(View.VISIBLE);
-        activity.findViewById(R.id.reviews_panel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getTask(true).execute();
-                initReviewListControls();
+        activity.findViewById(R.id.reviews_panel).setOnClickListener(v -> {
+            getTask(true).execute();
+            initReviewListControls();
 
-                setText(R.id.average_rating, R.string.details_rating, app.getRating().getAverage());
-                for (int starNum = 1; starNum <= 5; starNum++) {
-                    setText(averageStarIds[starNum - 1], R.string.details_rating_specific, starNum, app.getRating().getStars(starNum));
-                }
+            setText(R.id.average_rating, R.string.details_rating, app.getRating().getAverage());
+            for (int starNum = 1; starNum <= 5; starNum++) {
+                setText(averageStarIds[starNum - 1], R.string.details_rating_specific, starNum, app.getRating().getStars(starNum));
+            }
 
-                activity.findViewById(R.id.user_review_container).setVisibility(isReviewable(app) ? View.VISIBLE : View.GONE);
-                com.github.yeriomin.yalpstore.model.Review review = app.getUserReview();
-                initUserReviewControls(app);
-                if (null != review) {
-                    fillUserReview(review);
-                }
+            activity.findViewById(R.id.user_review_container).setVisibility(isReviewable(app) ? View.VISIBLE : View.GONE);
+            com.github.yeriomin.yalpstore.model.Review review = app.getUserReview();
+            initUserReviewControls(app);
+            if (null != review) {
+                fillUserReview(review);
             }
         });
     }
@@ -123,7 +120,7 @@ public class Review extends Abstract {
     public void showReviews(List<com.github.yeriomin.yalpstore.model.Review> reviews) {
         activity.findViewById(R.id.reviews_previous).setVisibility(iterator.hasPrevious() ? View.VISIBLE : View.INVISIBLE);
         activity.findViewById(R.id.reviews_next).setVisibility(iterator.hasNext() ? View.VISIBLE : View.INVISIBLE);
-        LinearLayout listView = (LinearLayout) activity.findViewById(R.id.reviews_list);
+        LinearLayout listView = activity.findViewById(R.id.reviews_list);
         listView.removeAllViews();
         for (com.github.yeriomin.yalpstore.model.Review review: reviews) {
             addReviewToList(review, listView);
@@ -151,51 +148,35 @@ public class Review extends Abstract {
         ((TextView) reviewLayout.findViewById(R.id.comment)).setText(review.getComment());
         reviewLayout.setOnClickListener(new UriOnClickListener(activity, review.getGooglePlusUrl()));
         parent.addView(reviewLayout);
-        new LoadImageTask((ImageView) reviewLayout.findViewById(R.id.avatar)).setImageSource(new ImageSource(review.getUserPhotoUrl())).executeOnExecutorIfPossible();
+        new LoadImageTask(reviewLayout.findViewById(R.id.avatar)).setImageSource(new ImageSource(review.getUserPhotoUrl())).executeOnExecutorIfPossible();
     }
 
     private void initReviewListControls() {
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getTask(v.getId() == R.id.reviews_next).execute();
-            }
-        };
+        View.OnClickListener listener = v -> getTask(v.getId() == R.id.reviews_next).execute();
         activity.findViewById(R.id.reviews_previous).setOnClickListener(listener);
         activity.findViewById(R.id.reviews_next).setOnClickListener(listener);
     }
 
     private void initUserReviewControls(final App app) {
-        ((RatingBar) activity.findViewById(R.id.user_stars)).setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                if (!fromUser) {
-                    return;
-                }
-                new UserReviewDialogBuilder(activity, Review.this, app.getPackageName())
-                    .show(getUpdatedUserReview(app.getUserReview(), (int) rating));
+        ((RatingBar) activity.findViewById(R.id.user_stars)).setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
+            if (!fromUser) {
+                return;
             }
+            new UserReviewDialogBuilder(activity, Review.this, app.getPackageName())
+                .show(getUpdatedUserReview(app.getUserReview(), (int) rating));
         });
-        activity.findViewById(R.id.user_review_edit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new UserReviewDialogBuilder(activity, Review.this, app.getPackageName())
-                    .show(app.getUserReview());
-            }
-        });
-        activity.findViewById(R.id.user_review_delete).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ReviewDeleteTask task = new ReviewDeleteTask();
-                task.setFragment(Review.this);
-                task.setContext(v.getContext());
-                task.execute(app.getPackageName());
-            }
+        activity.findViewById(R.id.user_review_edit).setOnClickListener(v -> new UserReviewDialogBuilder(activity, Review.this, app.getPackageName())
+            .show(app.getUserReview()));
+        activity.findViewById(R.id.user_review_delete).setOnClickListener(v -> {
+            ReviewDeleteTask task = new ReviewDeleteTask();
+            task.setFragment(Review.this);
+            task.setContext(v.getContext());
+            task.execute(app.getPackageName());
         });
     }
 
     private void setTextOrHide(int viewId, String text) {
-        TextView textView = (TextView) activity.findViewById(viewId);
+        TextView textView = activity.findViewById(viewId);
         if (!TextUtils.isEmpty(text)) {
             textView.setText(text);
             textView.setVisibility(View.VISIBLE);

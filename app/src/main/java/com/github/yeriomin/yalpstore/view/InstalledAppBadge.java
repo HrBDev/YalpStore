@@ -55,12 +55,7 @@ public class InstalledAppBadge extends AppBadge {
     private void enableMoreButton() {
         enableMoreButton(
             R.drawable.ic_more_vert,
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    view.performLongClick();
-                }
-            }
+                v -> view.performLongClick()
         );
     }
 }

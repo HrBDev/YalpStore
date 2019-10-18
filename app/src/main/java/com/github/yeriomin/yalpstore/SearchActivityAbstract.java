@@ -148,20 +148,12 @@ abstract public class SearchActivityAbstract extends EndlessScrollActivity {
             return new DialogWrapper(activity)
                 .setMessage(R.string.dialog_message_package_id)
                 .setTitle(R.string.dialog_title_package_id)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        activity.startActivity(DetailsActivity.getDetailsIntent(activity, packageId));
-                        dialogInterface.dismiss();
-                        activity.finish();
-                    }
+                .setPositiveButton(android.R.string.yes, (dialogInterface, i) -> {
+                    activity.startActivity(DetailsActivity.getDetailsIntent(activity, packageId));
+                    dialogInterface.dismiss();
+                    activity.finish();
                 })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        activity.loadApps();
-                    }
-                })
+                .setNegativeButton(android.R.string.no, (dialog, which) -> activity.loadApps())
                 .show()
             ;
         }

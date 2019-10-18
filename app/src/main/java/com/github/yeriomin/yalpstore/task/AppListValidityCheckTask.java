@@ -86,7 +86,7 @@ public class AppListValidityCheckTask extends AsyncTask<String, Void, Map<String
         Set<String> updatedPackageNames = new HashSet<>();
         for (String packageName: installedPackages.keySet()) {
             if (null != activity.getListItem(packageName)) {
-                App app = ((AppBadge) activity.getListItem(packageName)).getApp();
+                App app = activity.getListItem(packageName).getApp();
                 if (app.getVersionCode() == installedPackages.get(packageName)) {
                     updatedPackageNames.add(packageName);
                 }

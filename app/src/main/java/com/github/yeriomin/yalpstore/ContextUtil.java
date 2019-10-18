@@ -34,33 +34,18 @@ public class ContextUtil {
     }
 
     static public void toastShort(final Context context, final String message) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-            }
-        });
+        runOnUiThread(() -> Toast.makeText(context, message, Toast.LENGTH_SHORT).show());
     }
 
     static public void toastLong(final Context context, final String message) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-            }
-        });
+        runOnUiThread(() -> Toast.makeText(context, message, Toast.LENGTH_LONG).show());
     }
 
     static public void runOnUiThread(final Runnable action) {
         if (isUiThread()) {
             action.run();
         } else {
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    action.run();
-                }
-            });
+            new Handler(Looper.getMainLooper()).post(() -> action.run());
         }
     }
 

@@ -47,12 +47,7 @@ public class UserReviewDialogBuilder extends DialogWrapper {
         setCancelable(true);
         setTitle(R.string.details_review_dialog_title);
         setPositiveButton(android.R.string.ok, new DoneOnClickListener(review));
-        setNegativeButton(android.R.string.cancel, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dismiss();
-            }
-        });
+        setNegativeButton(android.R.string.cancel, (dialog, which) -> dismiss());
         show();
         return this;
     }

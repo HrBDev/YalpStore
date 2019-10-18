@@ -134,12 +134,7 @@ public abstract class CheckCredentialsTask extends PlayStoreTask<Void> {
             )
             .setNegativeButton(
                 R.string.dialog_two_factor_cancel,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        android.os.Process.killProcess(android.os.Process.myPid());
-                    }
-                }
+                    (dialog, which) -> android.os.Process.killProcess(android.os.Process.myPid())
             )
             .create()
         ;

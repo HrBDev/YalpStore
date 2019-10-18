@@ -103,17 +103,14 @@ public class LoadImageTask extends LowCpuIntensityTask<Void, Void, Void> {
                 fadeIn();
             }
         } else if (noImages()) {
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    LoadImageTask task = new LoadImageTask();
-                    task.setImageView(imageView);
-                    task.setFadeInMillis(fadeInMillis);
-                    task.setPlaceholder(placeholder);
-                    task.setForceLoadImage(true);
-                    task.setImageSource(imageSource);
-                    task.executeOnExecutorIfPossible();
-                }
+            imageView.setOnClickListener(v -> {
+                LoadImageTask task = new LoadImageTask();
+                task.setImageView(imageView);
+                task.setFadeInMillis(fadeInMillis);
+                task.setPlaceholder(placeholder);
+                task.setForceLoadImage(true);
+                task.setImageSource(imageSource);
+                task.executeOnExecutorIfPossible();
             });
         }
     }

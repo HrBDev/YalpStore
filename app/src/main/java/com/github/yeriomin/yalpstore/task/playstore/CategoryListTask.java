@@ -48,12 +48,7 @@ public class CategoryListTask extends CategoryTask implements CloneableTask {
         final Map<String, String> categories = manager.getCategoriesFromSharedPreferences();
         ListView list = activity.findViewById(android.R.id.list);
         list.setAdapter(getAdapter(categories, android.R.layout.simple_list_item_1));
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CategoryAppsActivity.start(activity, new ArrayList<>(categories.keySet()).get(position));
-            }
-        });
+        list.setOnItemClickListener((parent, view, position, id) -> CategoryAppsActivity.start(activity, new ArrayList<>(categories.keySet()).get(position)));
     }
 
     private ArrayAdapter getAdapter(Map<String, String> categories, int itemLayoutId) {

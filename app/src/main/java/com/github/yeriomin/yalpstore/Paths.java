@@ -82,12 +82,7 @@ public class Paths {
     static public List<File> getApkAndSplits(Context context, final String packageName, final int version) {
         List<File> files = new ArrayList<>();
         files.add(getApkPath(context, packageName, version));
-        File[] splits = getYalpPath(context).listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                return name.startsWith(packageName + "." + String.valueOf(version) + ".split.") && name.endsWith(".apk");
-            }
-        });
+        File[] splits = getYalpPath(context).listFiles((dir, name) -> name.startsWith(packageName + "." + String.valueOf(version) + ".split.") && name.endsWith(".apk"));
         if (null != splits) {
             files.addAll(Arrays.asList(splits));
         }

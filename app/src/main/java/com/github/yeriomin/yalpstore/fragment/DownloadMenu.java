@@ -55,12 +55,7 @@ public class DownloadMenu extends Abstract {
             return;
         }
         activity.registerForContextMenu(more);
-        more.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                more.showContextMenu();
-            }
-        });
+        more.setOnClickListener(v -> more.showContextMenu());
     }
 
     public void inflate(Menu menu) {

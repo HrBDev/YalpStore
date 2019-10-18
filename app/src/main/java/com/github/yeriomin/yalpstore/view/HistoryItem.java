@@ -60,7 +60,7 @@ public class HistoryItem extends ListItem {
                 ((ImageView) view.findViewById(R.id.icon)).setImageResource(R.drawable.ic_placeholder);
             } else {
                 view.setFocusable(false);
-                drawIcon((ImageView) view.findViewById(R.id.icon), app.getPackageName(), app.getIconInfo());
+                drawIcon(view.findViewById(R.id.icon), app.getPackageName(), app.getIconInfo());
             }
         }
     }

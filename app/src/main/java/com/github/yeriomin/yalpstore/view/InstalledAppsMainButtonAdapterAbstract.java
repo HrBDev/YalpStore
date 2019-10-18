@@ -33,12 +33,7 @@ public class InstalledAppsMainButtonAdapterAbstract extends ButtonAdapter {
     public InstalledAppsMainButtonAdapterAbstract init() {
         enable();
         show();
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                button.getContext().startActivity(new Intent(button.getContext(), UpdatableAppsActivity.class));
-            }
-        });
+        button.setOnClickListener(view -> button.getContext().startActivity(new Intent(button.getContext(), UpdatableAppsActivity.class)));
         return this;
     }
 }

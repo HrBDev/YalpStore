@@ -149,19 +149,11 @@ public class CheckShellTask extends TaskWithProgress<Boolean> {
         new DialogWrapper((Activity) context)
             .setMessage(R.string.dialog_message_busybox_not_available)
             .setTitle(R.string.dialog_title_busybox_not_available)
-            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    context.startActivity(getBusyboxSearchIntent());
-                    dialog.dismiss();
-                }
+            .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                context.startActivity(getBusyboxSearchIntent());
+                dialog.dismiss();
             })
-            .setNegativeButton(R.string.dialog_two_factor_cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            })
+            .setNegativeButton(R.string.dialog_two_factor_cancel, (dialog, which) -> dialog.dismiss())
             .show()
         ;
     }

@@ -119,20 +119,17 @@ public class ExpansionPanel extends LinearLayout {
             }
             headerView = findViewById(R.id.header);
             setHeaderText(headerText);
-            headerView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    boolean isExpanded = containerView.getHeight() > 0;
-                    if (isExpanded) {
-                        collapse(containerView);
-                        headerView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_expand_more, 0);
-                    } else {
-                        if (null != onClickListener) {
-                            onClickListener.onClick(v);
-                        }
-                        expand(containerView);
-                        headerView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_expand_less, 0);
+            headerView.setOnClickListener(v -> {
+                boolean isExpanded = containerView.getHeight() > 0;
+                if (isExpanded) {
+                    collapse(containerView);
+                    headerView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_expand_more, 0);
+                } else {
+                    if (null != onClickListener) {
+                        onClickListener.onClick(v);
                     }
+                    expand(containerView);
+                    headerView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_expand_less, 0);
                 }
             });
         }
@@ -175,14 +172,11 @@ public class ExpansionPanel extends LinearLayout {
     private void animate(final View v, int duration, final int targetHeight) {
         v.setVisibility(View.VISIBLE);
         ValueAnimator valueAnimator = ValueAnimator.ofInt(v.getHeight(), targetHeight);
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                v.getLayoutParams().height = (int) animation.getAnimatedValue();
-                v.requestLayout();
-                if (v.getLayoutParams().height == targetHeight && targetHeight > 0) {
-                    v.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                }
+        valueAnimator.addUpdateListener(animation -> {
+            v.getLayoutParams().height = (int) animation.getAnimatedValue();
+            v.requestLayout();
+            if (v.getLayoutParams().height == targetHeight && targetHeight > 0) {
+                v.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
             }
         });
         valueAnimator.setInterpolator(new DecelerateInterpolator());

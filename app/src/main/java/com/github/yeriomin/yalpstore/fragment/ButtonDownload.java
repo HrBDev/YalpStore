@@ -94,15 +94,12 @@ public class ButtonDownload extends Button {
             }
         }
         if (null != button) {
-            button.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    DownloadLinkTask task = new DownloadLinkTask();
-                    task.setApp(app);
-                    task.setContext(activity);
-                    task.execute();
-                    return true;
-                }
+            button.setOnLongClickListener(v -> {
+                DownloadLinkTask task = new DownloadLinkTask();
+                task.setApp(app);
+                task.setContext(activity);
+                task.execute();
+                return true;
             });
         }
     }

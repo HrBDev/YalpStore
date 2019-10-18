@@ -133,20 +133,13 @@ public abstract class InstallerAbstract {
             .setMessage(R.string.details_signature_mismatch)
             .setPositiveButton(
                 android.R.string.ok,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                }
+                    (dialog, id) -> dialog.cancel()
             )
         ;
         if (new BlackWhiteListManager(context).isUpdatable(app.getPackageName())) {
             builder.setNegativeButton(
                 R.string.action_ignore,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
+                    (dialog, id) -> {
                         context.sendBroadcast(getIgnoreIntent(app));
                         Activity activity = ContextUtil.getActivity(context);
                         if (null != activity && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
@@ -154,7 +147,6 @@ public abstract class InstallerAbstract {
                         }
                         dialog.cancel();
                     }
-                }
             );
         }
         return builder.create();

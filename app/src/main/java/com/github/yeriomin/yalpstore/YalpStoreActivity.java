@@ -223,25 +223,19 @@ public abstract class YalpStoreActivity extends BaseActivity {
         DialogWrapperAbstract dialogWrapper = new DialogWrapper(this)
             .setMessage(R.string.dialog_message_logout)
             .setTitle(R.string.dialog_title_logout)
-            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    new PlayStoreApiAuthenticator(getApplicationContext()).logout();
-                    redrawAccounts();
-                    dialogInterface.dismiss();
-                }
+            .setPositiveButton(android.R.string.yes, (dialogInterface, i) -> {
+                new PlayStoreApiAuthenticator(getApplicationContext()).logout();
+                redrawAccounts();
+                dialogInterface.dismiss();
             })
             .setNegativeButton(android.R.string.cancel, null)
         ;
         if (!YalpStoreApplication.user.appProvidedEmail() || !TextUtils.isEmpty(YalpStoreApplication.user.getDeviceDefinitionName())) {
-            dialogWrapper.setNeutralButton(R.string.delete, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int which) {
-                    new PlayStoreApiAuthenticator(getApplicationContext()).logout(true);
-                    redrawAccounts();
-                    dialogInterface.dismiss();
-                }
-            });
+            dialogWrapper.setNeutralButton(R.string.delete, (dialogInterface, which) -> {
+            new PlayStoreApiAuthenticator(getApplicationContext()).logout(true);
+            redrawAccounts();
+            dialogInterface.dismiss();
+        });
         }
         return dialogWrapper.show();
     }
@@ -250,14 +244,11 @@ public abstract class YalpStoreActivity extends BaseActivity {
         final EditText textView = new EditText(this);
         return new DialogWrapper(this)
             .setView(textView)
-            .setPositiveButton(android.R.string.search_go, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent i = new Intent(getApplicationContext(), SearchActivity.class);
-                    i.setAction(Intent.ACTION_SEARCH);
-                    i.putExtra(SearchManager.QUERY, textView.getText().toString());
-                    startActivity(i);
-                }
+            .setPositiveButton(android.R.string.search_go, (dialog, which) -> {
+                Intent i = new Intent(getApplicationContext(), SearchActivity.class);
+                i.setAction(Intent.ACTION_SEARCH);
+                i.putExtra(SearchManager.QUERY, textView.getText().toString());
+                startActivity(i);
             })
             .setNegativeButton(android.R.string.cancel, null)
             .show()

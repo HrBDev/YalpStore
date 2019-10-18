@@ -69,12 +69,7 @@ public class AppLists extends Abstract {
         linkView.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
         linkView.setPadding(Util.getPx(activity, 16), 0, Util.getPx(activity, 16), 0);
         linkView.setGravity(Gravity.CENTER_VERTICAL);
-        linkView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ClusterActivity.start(activity, url, label);
-            }
-        });
+        linkView.setOnClickListener(v -> ClusterActivity.start(activity, url, label));
         return linkView;
     }
 
@@ -82,15 +77,12 @@ public class AppLists extends Abstract {
         TextView textView = activity.findViewById(R.id.apps_by_same_developer);
         textView.setText(activity.getString(R.string.apps_by, app.getDeveloperName()));
         textView.setVisibility(View.VISIBLE);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(activity, SearchActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setAction(Intent.ACTION_SEARCH);
-                intent.putExtra(SearchManager.QUERY, SearchActivityAbstract.PUB_PREFIX + app.getDeveloperName());
-                activity.startActivity(intent);
-            }
+        textView.setOnClickListener(v -> {
+            Intent intent = new Intent(activity, SearchActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setAction(Intent.ACTION_SEARCH);
+            intent.putExtra(SearchManager.QUERY, SearchActivityAbstract.PUB_PREFIX + app.getDeveloperName());
+            activity.startActivity(intent);
         });
     }
 }

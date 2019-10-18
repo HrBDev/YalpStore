@@ -48,12 +48,7 @@ public class Permissions extends Abstract {
     @Override
     public void draw() {
         activity.findViewById(R.id.permissions_panel).setVisibility(View.VISIBLE);
-        activity.findViewById(R.id.permissions_panel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addPermissionWidgets();
-            }
-        });
+        activity.findViewById(R.id.permissions_panel).setOnClickListener(v -> addPermissionWidgets());
         if (!app.isInPlayStore()) {
             ((ExpansionPanel) activity.findViewById(R.id.permissions_panel)).toggle();
         }
@@ -80,7 +75,7 @@ public class Permissions extends Abstract {
             PermissionGroupInfo permissionGroupInfo = getPermissionGroupInfo(permissionInfo);
             groups.put(permissionGroupInfo.name, permissionGroupInfo);
             if (!permissions.containsKey(permissionGroupInfo.name)) {
-                permissions.put(permissionGroupInfo.name, new HashSet<PermissionInfo>());
+                permissions.put(permissionGroupInfo.name, new HashSet<>());
             }
             permissions.get(permissionGroupInfo.name).add(permissionInfo);
         }

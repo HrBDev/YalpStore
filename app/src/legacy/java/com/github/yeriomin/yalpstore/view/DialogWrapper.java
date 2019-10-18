@@ -142,13 +142,10 @@ public class DialogWrapper extends DialogWrapperAbstract {
 
     @Override
     public DialogWrapperAbstract create() {
-        ContextUtil.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                dialog = builder.create();
-                if (null != onDismissListener) {
-                    dialog.setOnDismissListener(onDismissListener);
-                }
+        ContextUtil.runOnUiThread(() -> {
+            dialog = builder.create();
+            if (null != onDismissListener) {
+                dialog.setOnDismissListener(onDismissListener);
             }
         });
         return this;
@@ -159,36 +156,21 @@ public class DialogWrapper extends DialogWrapperAbstract {
         if (null == dialog) {
             create();
         }
-        ContextUtil.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                dialog.show();
-            }
-        });
+        ContextUtil.runOnUiThread(() -> dialog.show());
         return this;
     }
 
     @Override
     public void cancel() {
         if (null != dialog) {
-            ContextUtil.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    dialog.cancel();
-                }
-            });
+            ContextUtil.runOnUiThread(() -> dialog.cancel());
         }
     }
 
     @Override
     public void dismiss() {
         if (null != dialog) {
-            ContextUtil.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    dialog.dismiss();
-                }
-            });
+            ContextUtil.runOnUiThread(() -> dialog.dismiss());
         }
     }
 }

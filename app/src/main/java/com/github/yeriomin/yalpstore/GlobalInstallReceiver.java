@@ -122,9 +122,7 @@ public class GlobalInstallReceiver extends PackageSpecificReceiver {
     }
 
     static private void cleanupIntentHashes() {
-        Iterator<Long> iterator = intentHashes.keySet().iterator();
-        while (iterator.hasNext()) {
-            Long currentIntentHash = iterator.next();
+        for (Long currentIntentHash : intentHashes.keySet()) {
             if (intentHashes.get(currentIntentHash) + INTENT_HASH_TTL < System.currentTimeMillis()) {
                 intentHashes.remove(currentIntentHash);
             }

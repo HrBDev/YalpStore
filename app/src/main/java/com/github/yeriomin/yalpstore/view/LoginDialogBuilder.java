@@ -103,13 +103,10 @@ public class LoginDialogBuilder extends CredentialsDialogBuilder {
                 return new DeviceSpinnerTask();
             }
         });
-        findViewById(R.id.device_details).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String deviceDefinitionName = devices.get(((Spinner) findViewById(R.id.device_list)).getSelectedItem());
-                if (!TextUtils.isEmpty(deviceDefinitionName)) {
-                    activity.startActivity(new Intent(activity, DeviceInfoActivity.class).putExtra(DeviceInfoActivity.INTENT_DEVICE_NAME, deviceDefinitionName));
-                }
+        findViewById(R.id.device_details).setOnClickListener(v -> {
+            String deviceDefinitionName = devices.get(((Spinner) findViewById(R.id.device_list)).getSelectedItem());
+            if (!TextUtils.isEmpty(deviceDefinitionName)) {
+                activity.startActivity(new Intent(activity, DeviceInfoActivity.class).putExtra(DeviceInfoActivity.INTENT_DEVICE_NAME, deviceDefinitionName));
             }
         });
         ((CheckBox) findViewById(R.id.language_toggle)).setOnCheckedChangeListener(new CheckboxWithSpinnerListener(this, R.id.language_list, languages) {
@@ -126,38 +123,27 @@ public class LoginDialogBuilder extends CredentialsDialogBuilder {
                 ? this.previousEmail
                 : YalpStoreApplication.user.getEmail()
         );
-        findViewById(R.id.toggle_password_visibility).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean passwordVisible = !TextUtils.isEmpty((String) v.getTag());
-                v.setTag(passwordVisible ? null : "tag");
-                ((ImageView) v).setImageResource(passwordVisible ? R.drawable.ic_visibility_on : R.drawable.ic_visibility_off);
-                ((EditText) findViewById(R.id.password)).setInputType(passwordVisible ? InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD : InputType.TYPE_CLASS_TEXT);
-            }
+        findViewById(R.id.toggle_password_visibility).setOnClickListener(v -> {
+            boolean passwordVisible = !TextUtils.isEmpty((String) v.getTag());
+            v.setTag(passwordVisible ? null : "tag");
+            ((ImageView) v).setImageResource(passwordVisible ? R.drawable.ic_visibility_on : R.drawable.ic_visibility_off);
+            ((EditText) findViewById(R.id.password)).setInputType(passwordVisible ? InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD : InputType.TYPE_CLASS_TEXT);
         });
 
-        setPositiveButton(android.R.string.ok, new OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                LoginInfo loginInfo = collectFormData();
-                if (!loginInfo.appProvidedEmail() && (TextUtils.isEmpty(loginInfo.getEmail()) || TextUtils.isEmpty(loginInfo.getPassword()))) {
-                    ContextUtil.toast(activity, R.string.error_credentials_empty);
-                    return;
-                }
-                if (!TextUtils.isEmpty(loginInfo.getDeviceDefinitionName()) && !isDeviceDefinitionValid(loginInfo.getDeviceDefinitionName())) {
-                    ContextUtil.toast(activity, R.string.error_invalid_device_definition);
-                    return;
-                }
-                getCheckLoginTask(loginInfo).execute();
+        setPositiveButton(android.R.string.ok, (dialog, which) -> {
+            LoginInfo loginInfo = collectFormData();
+            if (!loginInfo.appProvidedEmail() && (TextUtils.isEmpty(loginInfo.getEmail()) || TextUtils.isEmpty(loginInfo.getPassword()))) {
+                ContextUtil.toast(activity, R.string.error_credentials_empty);
+                return;
             }
+            if (!TextUtils.isEmpty(loginInfo.getDeviceDefinitionName()) && !isDeviceDefinitionValid(loginInfo.getDeviceDefinitionName())) {
+                ContextUtil.toast(activity, R.string.error_invalid_device_definition);
+                return;
+            }
+            getCheckLoginTask(loginInfo).execute();
         });
         setNegativeButton(android.R.string.cancel, null);
-        setOnDismissListener(new OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                PlayStoreTask.isShowingLoginDialog.set(false);
-            }
-        });
+        setOnDismissListener(dialog -> PlayStoreTask.isShowingLoginDialog.set(false));
         return super.create();
     }
 
@@ -209,12 +195,7 @@ public class LoginDialogBuilder extends CredentialsDialogBuilder {
         new DialogWrapper(activity)
             .setMessage(R.string.credentials_message)
             .setTitle(R.string.dialog_title_system_app_warning)
-            .setPositiveButton(android.R.string.ok, new OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    PreferenceUtil.getDefaultSharedPreferences(activity).edit().putBoolean(PREFERENCE_DISCLAIMER_IS_READ, true).commit();
-                }
-            })
+            .setPositiveButton(android.R.string.ok, (dialog, which) -> PreferenceUtil.getDefaultSharedPreferences(activity).edit().putBoolean(PREFERENCE_DISCLAIMER_IS_READ, true).commit())
             .show()
         ;
     }
@@ -223,23 +204,15 @@ public class LoginDialogBuilder extends CredentialsDialogBuilder {
         new DialogWrapper(activity)
             .setMessage(R.string.dialog_message_spoof_request)
             .setTitle(R.string.dialog_title_spoof_request)
-            .setPositiveButton(android.R.string.ok, new OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    PreferenceUtil.getDefaultSharedPreferences(activity).edit().putBoolean(PREFERENCE_REQUEST_IS_SHOWN, true).commit();
-                    ContextUtil.toastShort(activity, activity.getString(R.string.thank_you));
-                    Intent intentBugReport = new Intent(activity.getApplicationContext(), BugReportService.class);
-                    intentBugReport.setAction(BugReportService.ACTION_SEND_FTP);
-                    intentBugReport.putExtra(BugReportService.INTENT_DEVICE_DEFINITION, true);
-                    activity.startService(intentBugReport);
-                }
+            .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                PreferenceUtil.getDefaultSharedPreferences(activity).edit().putBoolean(PREFERENCE_REQUEST_IS_SHOWN, true).commit();
+                ContextUtil.toastShort(activity, activity.getString(R.string.thank_you));
+                Intent intentBugReport = new Intent(activity.getApplicationContext(), BugReportService.class);
+                intentBugReport.setAction(BugReportService.ACTION_SEND_FTP);
+                intentBugReport.putExtra(BugReportService.INTENT_DEVICE_DEFINITION, true);
+                activity.startService(intentBugReport);
             })
-            .setNegativeButton(android.R.string.cancel, new OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    PreferenceUtil.getDefaultSharedPreferences(activity).edit().putBoolean(PREFERENCE_REQUEST_IS_SHOWN, true).commit();
-                }
-            })
+            .setNegativeButton(android.R.string.cancel, (dialog, which) -> PreferenceUtil.getDefaultSharedPreferences(activity).edit().putBoolean(PREFERENCE_REQUEST_IS_SHOWN, true).commit())
             .show()
         ;
     }

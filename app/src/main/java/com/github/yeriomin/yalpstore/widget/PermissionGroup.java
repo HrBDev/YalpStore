@@ -169,16 +169,10 @@ public class PermissionGroup extends LinearLayout {
         }
         CharSequence label = null == permissionGroupInfo ? "" : permissionGroupInfo.loadLabel(pm);
         final String title = TextUtils.isEmpty(label) ? "" : label.toString();
-        return new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new DialogWrapper((Activity) getContext())
-                    .setIcon(getPermissionGroupIcon(permissionGroupInfo))
-                    .setTitle((title.equals(permissionGroupInfo.name) || title.equals(permissionGroupInfo.packageName)) ? "" : title)
-                    .setMessage(message)
-                    .show()
-                ;
-            }
-        };
+        return v -> new DialogWrapper((Activity) getContext())
+            .setIcon(getPermissionGroupIcon(permissionGroupInfo))
+            .setTitle((title.equals(permissionGroupInfo.name) || title.equals(permissionGroupInfo.packageName)) ? "" : title)
+            .setMessage(message)
+            .show();
     }
 }

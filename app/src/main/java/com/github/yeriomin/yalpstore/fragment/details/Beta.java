@@ -66,19 +66,9 @@ public class Beta extends Abstract {
         setText(R.id.beta_subscribe_button, app.isTestingProgramOptedIn() ? R.string.testing_program_opt_out : R.string.testing_program_opt_in);
         setText(R.id.beta_email, app.getTestingProgramEmail());
         activity.findViewById(R.id.beta_feedback).setVisibility(app.isTestingProgramOptedIn() ? View.VISIBLE : View.GONE);
-        activity.findViewById(R.id.beta_subscribe_button).setOnClickListener(new BetaOnClickListener((TextView) activity.findViewById(R.id.beta_message), app));
-        activity.findViewById(R.id.beta_submit_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initBetaTask(new BetaFeedbackSubmitTask()).execute();
-            }
-        });
-        activity.findViewById(R.id.beta_delete_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initBetaTask(new BetaFeedbackDeleteTask()).execute();
-            }
-        });
+        activity.findViewById(R.id.beta_subscribe_button).setOnClickListener(new BetaOnClickListener(activity.findViewById(R.id.beta_message), app));
+        activity.findViewById(R.id.beta_submit_button).setOnClickListener(v -> initBetaTask(new BetaFeedbackSubmitTask()).execute());
+        activity.findViewById(R.id.beta_delete_button).setOnClickListener(v -> initBetaTask(new BetaFeedbackDeleteTask()).execute());
         if (null != app.getUserReview() && !TextUtils.isEmpty(app.getUserReview().getComment())) {
             ((EditText) activity.findViewById(R.id.beta_comment)).setText(app.getUserReview().getComment());
             activity.findViewById(R.id.beta_delete_button).setVisibility(View.VISIBLE);
@@ -87,7 +77,7 @@ public class Beta extends Abstract {
 
     private BetaFeedbackTask initBetaTask(BetaFeedbackTask task) {
         task.setPackageName(app.getPackageName());
-        task.setEditText((EditText) activity.findViewById(R.id.beta_comment));
+        task.setEditText(activity.findViewById(R.id.beta_comment));
         task.setDeleteButton(activity.findViewById(R.id.beta_delete_button));
         return task;
     }

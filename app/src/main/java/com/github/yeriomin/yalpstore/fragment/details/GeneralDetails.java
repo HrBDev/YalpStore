@@ -86,7 +86,7 @@ public class GeneralDetails extends Abstract {
         TextView packageNameView = activity.findViewById(R.id.packageName);
         String oldPackageName = (null == packageNameView || TextUtils.isEmpty(packageNameView.getText())) ? "" : packageNameView.getText().toString();
         if (!oldPackageName.equals(app.getPackageName())) {
-            new LoadImageTask((ImageView) activity.findViewById(R.id.icon))
+            new LoadImageTask(activity.findViewById(R.id.icon))
                 .setPlaceholder(false)
                 .setImageSource(app.getIconInfo())
                 .executeOnExecutorIfPossible()
@@ -94,7 +94,7 @@ public class GeneralDetails extends Abstract {
         }
         setText(R.id.displayName, app.getDisplayName());
         setText(R.id.packageName, app.getPackageName());
-        drawVersion((TextView) activity.findViewById(R.id.versionString), app);
+        drawVersion(activity.findViewById(R.id.versionString), app);
     }
 
     private void drawGeneralDetails(App app) {
@@ -240,12 +240,7 @@ public class GeneralDetails extends Abstract {
             categoryBadge.setLabel(categoryLabel);
         }
         categoryBadge.setLabel(categoryLabel);
-        categoryBadge.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CategoryAppsActivity.start(activity, app.getCategoryId());
-            }
-        });
+        categoryBadge.setOnClickListener(v -> CategoryAppsActivity.start(activity, app.getCategoryId()));
         ViewGroup.LayoutParams iconParams = categoryBadge.getIconView().getLayoutParams();
         int categoryIconSize = Util.getPx(activity, 64);
         iconParams.width = categoryIconSize;
@@ -255,7 +250,7 @@ public class GeneralDetails extends Abstract {
     private DetailsCategoryTask getCategoryTask(CategoryManager manager, String categoryId) {
         DetailsCategoryTask task = new DetailsCategoryTask();
         task.setCategoryId(categoryId);
-        task.setCategoryView((Badge) activity.findViewById(R.id.category_badge));
+        task.setCategoryView(activity.findViewById(R.id.category_badge));
         task.setManager(manager);
         task.setContext(activity);
         return task;

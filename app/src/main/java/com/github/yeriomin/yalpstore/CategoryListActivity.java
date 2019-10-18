@@ -40,7 +40,7 @@ public class CategoryListActivity extends YalpStoreActivity {
         CategoryListTask task = new CategoryListTask();
         task.setContext(this);
         task.setManager(manager);
-        task.setErrorView((TextView) findViewById(R.id.empty));
+        task.setErrorView(findViewById(R.id.empty));
         task.setProgressIndicator(findViewById(R.id.progress));
         return task;
     }

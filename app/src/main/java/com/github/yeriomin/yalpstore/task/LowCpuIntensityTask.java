@@ -56,7 +56,7 @@ abstract public class LowCpuIntensityTask<Params, Progress, Result> extends Asyn
         }
     };
 
-    private static final BlockingQueue<Runnable> sPoolWorkQueue = new LinkedBlockingQueue<Runnable>(128);
+    private static final BlockingQueue<Runnable> sPoolWorkQueue = new LinkedBlockingQueue<>(128);
 
     private static final Executor THREAD_POOL_EXECUTOR_NETWORK;
 

@@ -47,16 +47,13 @@ public class UpdatableAppsButtonAdapterAbstract extends ButtonAdapter {
 
     public UpdatableAppsButtonAdapterAbstract setReady() {
         show();
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UpdatableAppsActivity activity = (UpdatableAppsActivity) ContextUtil.getActivity(v.getContext());
-                YalpStorePermissionManager permissionManager = new YalpStorePermissionManager(activity);
-                if (permissionManager.checkPermission()) {
-                    activity.launchUpdateAll();
-                } else {
-                    permissionManager.requestPermission(UpdatableAppsActivity.REQUEST_CODE_UPDATE_ALL);
-                }
+        button.setOnClickListener(v -> {
+            UpdatableAppsActivity activity = (UpdatableAppsActivity) ContextUtil.getActivity(v.getContext());
+            YalpStorePermissionManager permissionManager = new YalpStorePermissionManager(activity);
+            if (permissionManager.checkPermission()) {
+                activity.launchUpdateAll();
+            } else {
+                permissionManager.requestPermission(UpdatableAppsActivity.REQUEST_CODE_UPDATE_ALL);
             }
         });
         return this;
@@ -64,14 +61,11 @@ public class UpdatableAppsButtonAdapterAbstract extends ButtonAdapter {
 
     public UpdatableAppsButtonAdapterAbstract setUpdating() {
         show();
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UpdatableAppsActivity activity = (UpdatableAppsActivity) ContextUtil.getActivity(v.getContext());
-                for (String packageName: activity.getListedPackageNames()) {
-                    new DownloadManager(activity).cancel(packageName);
-                    activity.getListItem(packageName).draw();
-                }
+        button.setOnClickListener(v -> {
+            UpdatableAppsActivity activity = (UpdatableAppsActivity) ContextUtil.getActivity(v.getContext());
+            for (String packageName: activity.getListedPackageNames()) {
+                new DownloadManager(activity).cancel(packageName);
+                activity.getListItem(packageName).draw();
             }
         });
         return this;

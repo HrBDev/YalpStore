@@ -41,21 +41,11 @@ public class PurchaseDialogBuilder extends DialogWrapper {
             .setMessage(R.string.error_not_purchased)
             .setPositiveButton(
                 android.R.string.ok,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        new UriOnClickListener(activity, PurchaseDialogBuilder.URL_PURCHASE + packageName).onClick(null);
-                    }
-                }
+                    (dialog, id) -> new UriOnClickListener(activity, PurchaseDialogBuilder.URL_PURCHASE + packageName).onClick(null)
             )
             .setNegativeButton(
                 android.R.string.cancel,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                }
+                    (dialog, id) -> dialog.cancel()
             )
         ;
         return super.create();

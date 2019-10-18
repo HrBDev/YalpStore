@@ -47,12 +47,9 @@ public class Wishlist extends Abstract {
             return;
         }
         initWishlistButton(activity, app.getPackageName());
-        wishlistButton.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                activity.startActivity(new Intent(activity, WishlistActivity.class));
-                return true;
-            }
+        wishlistButton.setOnLongClickListener(v -> {
+            activity.startActivity(new Intent(activity, WishlistActivity.class));
+            return true;
         });
     }
 
@@ -61,14 +58,11 @@ public class Wishlist extends Abstract {
         wishlistButton.setVisibility(View.VISIBLE);
         wishlistButton.setImageResource(YalpStoreApplication.wishlist.contains(packageName) ? R.drawable.ic_wishlist_tick : R.drawable.ic_wishlist_plus);
         wishlistButton.setColorFilter(Util.getColor(activity, android.R.attr.textColorSecondary), PorterDuff.Mode.SRC_IN);
-        wishlistButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setOnClickListener(null);
-                DetailsWishlistToggleTask task = new DetailsWishlistToggleTask(activity);
-                task.setPackageName(packageName);
-                task.execute();
-            }
+        wishlistButton.setOnClickListener(v -> {
+            v.setOnClickListener(null);
+            DetailsWishlistToggleTask task = new DetailsWishlistToggleTask(activity);
+            task.setPackageName(packageName);
+            task.execute();
         });
     }
 

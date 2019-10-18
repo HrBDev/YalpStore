@@ -112,9 +112,7 @@ public class MultiSelectListPreference extends DialogPreference {
 
         final boolean[] checkedItems = getSelectedItems(mNewValues);
         builder.setMultiChoiceItems(mEntries, checkedItems,
-            new DialogInterface.OnMultiChoiceClickListener() {
-                public void onClick(DialogInterface dialog, int which,
-                                    boolean isChecked) {
+                (dialog, which, isChecked) -> {
                     if (isChecked) {
                         mPreferenceChanged |= mNewValues
                             .add(mEntryValues[which].toString());
@@ -122,8 +120,7 @@ public class MultiSelectListPreference extends DialogPreference {
                         mPreferenceChanged |= mNewValues
                             .remove(mEntryValues[which].toString());
                     }
-                }
-            });
+                });
     }
 
     private boolean[] getSelectedItems(final Set<String> values) {
