@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    buildToolsVersion '29.0.2'
 
     def getCurrentFlavor = { ->
         if (getGradle().getStartParameter().getTaskRequests().toString().contains("legacy")) {
@@ -76,5 +76,5 @@ dependencies {
     implementation 'com.nothome:javaxdelta:2.0.1'
     debugImplementation ('com.github.yeriomin:play-store-api:master-SNAPSHOT') { changing = true }
     releaseImplementation 'com.github.yeriomin:play-store-api:0.44.2'
-    implementation 'eu.chainfire:libsuperuser:1.0.0.201608240809'
+    implementation 'eu.chainfire:libsuperuser:1.1.0.201907261845'
 }
