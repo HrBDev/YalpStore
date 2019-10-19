@@ -20,8 +20,8 @@
 package com.github.yeriomin.yalpstore;
 
 import android.os.Build;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
